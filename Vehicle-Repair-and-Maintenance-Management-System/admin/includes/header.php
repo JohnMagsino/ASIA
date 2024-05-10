@@ -6,4 +6,5 @@
 	<link href="../assets/css/font-awesome.min.css" rel="stylesheet">
 	<link href="../assets/css/datepicker3.css" rel="stylesheet">
 	<link href="../assets/css/styles.css" rel="stylesheet">
+	<link href="../assets/css/topbar.css" rel="stylesheet">
 </head>

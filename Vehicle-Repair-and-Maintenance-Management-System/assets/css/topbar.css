@@ -1,0 +1,38 @@
+.container-fluid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-brand img {
+  margin: 0;
+  max-height: 100%;
+  /* Ensure the logo scales proportionally */
+  max-width: 100%;
+  /* Ensure the logo doesn't exceed the width of its container */
+}
+
+.profile-topbar {
+  max-height: 100%;
+  /* Ensure the logo scales proportionally */
+  max-width: 100%;
+  /* Ensure the logo doesn't exceed the width of its container */
+  display: flex;
+  align-items: center;
+}
+
+.profile-usertitle-name {
+  color: white;
+  font-size: medium;
+  font-weight: bold;
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden; /* Hides the overflowed text */
+  text-overflow: ellipsis; /* Shows an ellipsis when the text overflows */
+}
+
+.profile-usertitle-status {
+  color: white;
+  font-size: 10px;
+}
+.profile-userpic img {
+  border: 2px solid white;
+}

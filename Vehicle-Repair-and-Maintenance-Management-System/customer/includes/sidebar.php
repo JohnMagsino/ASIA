@@ -1,15 +1,10 @@
 
     
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar" style="background: #1E1E1E;">
 		<div class="profile-sidebar">
 			<div class="profile-userpic">
-				<img src="../assets/image/5.jpg" class="img-responsive" alt="">
+				
 			</div>
-			<div class="profile-usertitle">
-				<div class="profile-usertitle-name">William Jones</div>
-				<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
-			</div>
-			<div class="clear"></div>
 		</div>
         
 		<ul class="nav menu">

@@ -1,6 +1,4 @@
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-	
-
 	<ul class="nav menu">
 		<li><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
 		<li><a href="customer.php"><em class="fa fa-users">&nbsp;</em> Customer</a></li>
@@ -25,3 +23,31 @@
 		<li><a href="../index.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 	</ul>
 </div><!--/.sidebar-->
+
+<script>
+	// Get all the links within the sidebar
+	const sidebarLinks = document.querySelectorAll('.sidebar ul.nav a');
+
+	// Add a click event listener to each link
+	sidebarLinks.forEach(link => {
+		link.addEventListener('click', function (event) {
+			// Remove the "active" class from all links
+			sidebarLinks.forEach(link => link.classList.remove('active'));
+
+			// Add the "active" class to the clicked link
+			this.classList.add('active');
+		});
+	});
+</script>
+
+<style>
+	/* Add this CSS to style the active link */
+	.sidebar ul.nav a.active {
+		background-color: black;
+		/* Set the background color to black for active links */
+		color: white;
+		/* Set text color to white */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		/* Add a subtle drop shadow */
+	}
+</style>

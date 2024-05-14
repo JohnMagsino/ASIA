@@ -39,6 +39,7 @@
   text-decoration: none;
   background-color: #1e1e1e;
   color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar ul.nav .active a,
@@ -98,4 +99,12 @@
 .profile-sidebar {
   padding: 10px 0;
   border-bottom: 1px solid #e9ecf2;
+}
+.menu-title{
+  font-weight: bold;
+  font-size: medium;
+  margin: 10px;
+}
+.nav{
+  font-weight: bold;
 }

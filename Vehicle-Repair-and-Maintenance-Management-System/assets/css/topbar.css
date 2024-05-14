@@ -41,3 +41,53 @@
   display: block; /* Ensures the image is centered */
   margin: 0 auto; /* Centers the image horizontally */
 }
+/* Existing CSS */
+.container-fluid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-brand img {
+  margin: 0;
+  max-height: 100%;
+  /* Ensure the logo scales proportionally */
+  max-width: 100%;
+  /* Ensure the logo doesn't exceed the width of its container */
+}
+
+.profile-usertitle-name {
+  color: white;
+  font-size: medium;
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden; /* Hides the overflowed text */
+  text-overflow: ellipsis; /* Shows an ellipsis when the text overflows */
+  background-color: black;
+}
+
+.profile-usertitle-status {
+  color: white;
+  font-size: 9px;
+  font-weight: 100;
+  align-items: center;
+}
+
+.circular-frame {
+  width: 45px; /* Adjust size as needed */
+  height: 45px; /* Adjust size as needed */
+  border: 2px solid white; /* White border */
+  border-radius: 50%; /* Makes the frame circular */
+  overflow: hidden; /* Hides overflowed content (the corners of the image) */
+  margin-top: 10px;
+}
+
+.circular-frame img {
+  width: 100%; /* Makes the image fill the circular frame */
+  height: auto; /* Maintains aspect ratio */
+  display: block; /* Ensures the image is centered */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+
+/* New CSS for box shadow */
+.navbar-custom {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

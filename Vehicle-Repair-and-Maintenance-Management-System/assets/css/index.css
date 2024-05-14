@@ -1,0 +1,57 @@
+body {
+  background-color: white;
+}
+.breadcrumb {
+  background-color: white;
+}
+.active-link {
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
+  margin-top: 10px;
+}
+.panel-container {
+  margin-top: 20px;
+}
+.dashboard-panel {
+  background-color: #d3d3d3;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.dashboard-panel .icon {
+  background-color: black;
+  border-radius: 50%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard-panel .icon i {
+  color: white;
+  font-size: 24px;
+}
+.dashboard-panel .details {
+  text-align: right;
+}
+.dashboard-panel .details .number {
+  font-size: 24px;
+  font-weight: bold;
+}
+.dashboard-panel .details .label {
+  font-size: 14px;
+  color: gray;
+}
+.btnAddCust {
+  color: black;
+  background-color: #72cd4b;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  float: right;
+  margin-top: 20px;
+}

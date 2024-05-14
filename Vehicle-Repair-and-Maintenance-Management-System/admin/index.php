@@ -9,55 +9,49 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#">
-					<em class="fa fa-home"></em>
-				</a></li>
-				<li class="active">Dashboard</li>
+				<li class="active-link">Dashboard</li>
 			</ol>
 		</div><!--/.row-->
-		
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header"><em class="fa fa-tachometer">&nbsp;</em> Dashboard</h1>
-			</div>
-		</div><!--/.row-->
-		
-		<div class="panel panel-container">
-			<div class="row">
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-					<div class="panel panel-teal panel-widget border-right">
-						<div class="row no-padding"><em class="fa fa-xl fa-users color-blue"></em>
-							<div class="large">120</div>
-							<div class="text-muted">Number of Customers</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-					<div class="panel panel-blue panel-widget border-right">
-						<div class="row no-padding"><em class="fa fa-xl fa-cogs color-orange"></em>
-							<div class="large">52</div>
-							<div class="text-muted">Number of Tasks</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-					<div class="panel panel-orange panel-widget border-right">
-						<div class="row no-padding"><em class="fa fa-xl fa-users color-teal"></em>
-							<div class="large">24</div>
-							<div class="text-muted">Number of Team Member</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-					<div class="panel panel-red panel-widget ">
-						<div class="row no-padding"><em class="fa fa-xl fa-money color-red"></em>
-							<div class="large">25.2k</div>
-							<div class="text-muted">Income of the Day</div>
-						</div>
-					</div>
-				</div>
-			</div><!--/.row-->
-		</div>
+	
+        <div class="row">
+            <div class="col-md-3">
+                <div class="dashboard-panel">
+                    <div class="icon"><i class="fa fa-users"></i></div>
+                    <div class="details">
+                        <div class="number">123</div>
+                        <div class="label">TOTAL CUSTOMERS</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-panel">
+                    <div class="icon"><i class="fa fa-home"></i></div>
+                    <div class="details">
+                        <div class="number">24</div>
+                        <div class="label">TOTAL TEAM MEMBERS</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-panel">
+                    <div class="icon"><i class="fa fa-wallet"></i></div>
+                    <div class="details">
+                        <div class="number">₱120,000</div>
+                        <div class="label">TOTAL REVENUE</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-panel">
+                    <div class="icon"><i class="fa fa-money"></i></div>
+                    <div class="details">
+                        <div class="number">₱20,000</div>
+                        <div class="label">TOTAL BALANCES</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add more panels or content below as needed -->
 		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-default">

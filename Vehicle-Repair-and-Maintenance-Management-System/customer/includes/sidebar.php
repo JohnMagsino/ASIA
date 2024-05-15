@@ -107,12 +107,11 @@
     }
 </style>
 
-</head>
 <body>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
         <h3 style="color: white; margin-left:10px;">Menu</h3>
         <ul class="nav menu">
-            <li><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+            <li><a href="index.php"><em class="fa fa-grip-vertical">&nbsp;</em> Dashboard</a></li>
             <li><a href="new-task.php"><em class="fa fa-plus">&nbsp;</em> New Task</a></li>
             <li><a href="task-information.php"><em class="fa fa-line-chart">&nbsp;</em> Task List</a></li>
             <li><a href="invoice.php"><em class="fa fa-file-text">&nbsp;</em> Invoice</a></li>

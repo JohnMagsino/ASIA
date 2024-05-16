@@ -1,4 +1,4 @@
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-color: white; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-color: white; box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);">
     <div class="container-fluid d-flex justify-content-between">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">

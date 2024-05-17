@@ -34,30 +34,6 @@
                                                 <td>3</td>
                                                 <td>Php 15,200</td>
                                             </tr>
-                                            <tr>
-                                                <td>INV-987-21</td>
-                                                <td>TSCN-664-21</td>
-                                                <td>3</td>
-                                                <td>Php 9,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>INV-542-21</td>
-                                                <td>TSCN-983-21</td>
-                                                <td>2</td>
-                                                <td>Php 7,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>INV-987-21</td>
-                                                <td>TSCN-874-21</td>
-                                                <td>5</td>
-                                                <td>Php 19,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>INV-478-21</td>
-                                                <td>TSCN-923-21</td>
-                                                <td>2</td>
-                                                <td>Php 11,200</td>
-                                            </tr>
                                         </tbody>
                                     </table>
 			</div><!--/.row-->

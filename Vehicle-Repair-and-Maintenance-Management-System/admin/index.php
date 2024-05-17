@@ -13,7 +13,17 @@ $customerCount = $stmt->fetch()['count'];
 $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM tbl_account WHERE accType = 'admin'");
 $stmt->execute();
 $adminCount = $stmt->fetch()['count'];
+
+// Calculate total revenue
+$stmt = $pdo->query("SELECT SUM(payAmount) AS totalRevenue FROM tbl_payment");
+$totalRevenue = $stmt->fetch(PDO::FETCH_ASSOC)['totalRevenue'];
+
+// Calculate total balances
+$stmt = $pdo->query("SELECT SUM(payBalance) AS totalBalances FROM tbl_payment");
+$totalBalances = $stmt->fetch(PDO::FETCH_ASSOC)['totalBalances'];
+
 ?>
+
 <body>
 
 	<?php include 'includes/topbar.php' ?>
@@ -49,7 +59,7 @@ $adminCount = $stmt->fetch()['count'];
 				<div class="dashboard-panel">
 					<div class="icon"><i class="fa fa-wallet"></i></div>
 					<div class="details">
-						<div class="number">₱120,000</div>
+						<div class="number">₱<?php echo number_format($totalRevenue, 2); ?></div>
 						<div class="label">TOTAL REVENUE</div>
 					</div>
 				</div>
@@ -58,7 +68,7 @@ $adminCount = $stmt->fetch()['count'];
 				<div class="dashboard-panel">
 					<div class="icon"><i class="fa fa-money"></i></div>
 					<div class="details">
-						<div class="number">₱20,000</div>
+						<div class="number">₱<?php echo number_format($totalBalances, 2); ?></div>
 						<div class="label">TOTAL BALANCES</div>
 					</div>
 				</div>

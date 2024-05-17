@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Check if username and password are provided
     if (!empty($username) && !empty($password)) {
         // Prepare and execute the query
-        $stmt = $pdo->prepare("SELECT accType FROM tbl_account WHERE accUsername = :username AND accPass = :password");
+        $stmt = $pdo->prepare("SELECT accID, accType FROM tbl_account WHERE accUsername = :username AND accPass = :password");
         $stmt->execute(['username' => $username, 'password' => $password]);
         $user = $stmt->fetch();
 
@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Set session variables if needed
             $_SESSION['username'] = $username;
             $_SESSION['accType'] = $user['accType'];
+            $_SESSION['accID'] = $user['accID']; // Save accID to session
 
             // Redirect based on accType
             if ($user['accType'] == 'admin') {
@@ -34,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Please enter both username and password.";
     }
 } else {
+    // Handle other requests if needed
 }
 ?>
 

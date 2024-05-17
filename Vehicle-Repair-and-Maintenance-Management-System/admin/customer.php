@@ -18,6 +18,18 @@
 
 		<div class="panel panel-container">
 			<div style="margin:10px">
+				<?php
+				include 'connection.php';
+				$stmt = $pdo->query("SELECT infoID FROM tbl_account WHERE accType = 'customer'");
+				$infoIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+				// Fetch data from tbl_info using infoID
+				$placeholders = str_repeat('?,', count($infoIDs) - 1) . '?';
+				$stmt = $pdo->prepare("SELECT * FROM tbl_info WHERE infoID IN ($placeholders)");
+				$stmt->execute($infoIDs);
+				$customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				?>
+
 				<table id="example1" class="table table-hover">
 					<thead>
 						<tr>
@@ -31,173 +43,43 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Jared Murphy</td>
-							<td>New York</td>
-							<td>jred@gmail.com</td>
-							<td>09898989859</td>
-							<td><img src="../assets/image/1.jpg" width="50" style="border-radius:5px"></td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>Leroy Francis</td>
-							<td>California, USA</td>
-							<td>leroy@gmail.com</td>
-							<td>09898989859</td>
-							<td><img src="../assets/image/5.jpg" width="50" style="border-radius:5px"></td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>Michael William</td>
-							<td>New York</td>
-							<td>michael@gmail.com</td>
-							<td>09898989859</td>
-							<td><img src="../assets/image/10.jpg" width="50" style="border-radius:5px"></td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>Alexam Angles</td>
-							<td>New York</td>
-							<td>alexam@gmail.com</td>
-							<td>09898989859</td>
-							<td><img src="../assets/image/2.jpg" width="50" style="border-radius:5px"></td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>Quinn Flynn</td>
-							<td>New York</td>
-							<td>quin@gmail.com</td>
-							<td>09898989859</td>
-							<td><img src="../assets/image/11.jpg" width="50" style="border-radius:5px"></td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
+						<?php foreach ($customers as $customer): ?>
+							<tr>
+								<td><?php echo $customer['fullName']; ?></td>
+								<td><?php echo $customer['fullAddress']; ?></td>
+								<td><?php echo $customer['emailAdd']; ?></td>
+								<td><?php echo $customer['contactNo']; ?></td>
+								<td>
+									<?php
+									$avatar = base64_encode($customer['avatar']);
+									echo '<img src="data:image/jpeg;base64,' . $avatar . '" width="50" style="border-radius:5px">';
+									?>
+								</td>
+								<td><span class="badge bg-success"><?php echo $customer['accStatus']; ?></span></td>
+								<td>
+									<ul class="pull-right panel-settings" style="border:none">
+										<li class="dropdown">
+											<a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+												<em class="fa fa-cogs"></em>
+											</a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li>
+													<ul class="dropdown-settings">
+														<li><a href="#"><em class="fa fa-eye"></em> view</a></li>
+														<li><a href="#"><em class="fa fa-edit"></em> edit</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><em class="fa fa-trash"></em> delete</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
+
 			</div><!--/.row-->
 		</div>
 	</div> <!--/.main-->

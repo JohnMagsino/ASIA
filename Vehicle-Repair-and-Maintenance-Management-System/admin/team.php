@@ -18,148 +18,64 @@
 
 		<div class="panel panel-container">
 			<div style="margin:10px">
+				<?php
+				include 'connection.php';
+
+				// Fetch infoID of admin accounts from tbl_account
+				$stmt = $pdo->prepare("SELECT infoID FROM tbl_account WHERE accType = 'admin'");
+				$stmt->execute();
+				$adminInfoIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+				// Fetch admin account details from tbl_info using the retrieved infoIDs
+				$stmt = $pdo->prepare("SELECT fullName, fullAddress, emailAdd, avatar, accStatus FROM tbl_info WHERE infoID IN (" . implode(",", $adminInfoIDs) . ")");
+				$stmt->execute();
+				$adminAccounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				?>
+
 				<table id="example1" class="table table-hover">
 					<thead>
 						<tr>
 							<th class="border-top-0">Full Name</th>
-							<th class="border-top-0">Designation</th>
 							<th class="border-top-0">Address</th>
 							<th class="border-top-0">Email</th>
+							<th class="border-top-0">Avatar</th>
 							<th class="border-top-0">Account Status</th>
 							<th class="border-top-0">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Jared Murphy</td>
-							<td>Mechanic</td>
-							<td>123 st. Manggahan, Pasig</td>
-							<td>jred@gmail.com</td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>Bradley Greer</td>
-							<td>Mechanic</td>
-							<td>Manga st. Rosario, Pasig</td>
-							<td>bradley@gmail.com</td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>Bruno Nash</td>
-							<td>Mechanic</td>
-							<td>Ampalya st. Napico, Pasig</td>
-							<td>bruno@gmail.com</td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>Cedric Kelly</td>
-							<td>Mechanic</td>
-							<td>Atis st. Rosario, Pasig</td>
-							<td>cedric@gmail.com</td>
-							<td><span class="badge bg-success">active</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
+						<?php foreach ($adminAccounts as $admin): ?>
+							<tr>
+								<td><?php echo $admin['fullName']; ?></td>
+								<td><?php echo $admin['fullAddress']; ?></td>
+								<td><?php echo $admin['emailAdd']; ?></td>
+								<td><img src="data:image/jpeg;base64,<?php echo base64_encode($admin['avatar']); ?>"
+										alt="Avatar" width="50" height="50"></td>
+								<td><span class="badge bg-success"><?php echo $admin['accStatus']; ?></span></td>
+								<td>
+									<ul class="pull-right panel-settings" style="border:none">
+										<li class="dropdown">
+											<a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+												<em class="fa fa-cogs"></em>
+											</a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li>
+													<ul class="dropdown-settings">
+														<li><a href="#"><em class="fa fa-eye"></em> view</a></li>
+														<li><a href="#"><em class="fa fa-edit"></em> edit</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><em class="fa fa-trash"></em> delete</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
+
 			</div><!--/.row-->
 		</div>
 	</div> <!--/.main-->

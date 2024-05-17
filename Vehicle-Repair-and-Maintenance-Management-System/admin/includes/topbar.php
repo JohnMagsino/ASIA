@@ -8,16 +8,35 @@
 				<span class="icon-bar"></span></button>
 			<a class="navbar-brand" href="#"><img src="../assets/image/logo-admin.png" alt="Logo"></a>
 		</div>
+		<?php
+		session_start();
+		include 'connection.php';
+
+		// Check if user is logged in
+		if (!isset($_SESSION['accID'])) {
+			// Redirect to login page if not logged in
+			header("Location: login.php");
+			exit();
+		}
+
+		// Fetch user information based on accID
+		$stmt = $pdo->prepare("SELECT fullName, avatar FROM tbl_info WHERE infoID = (SELECT infoID FROM tbl_account WHERE accID = :accID)");
+		$stmt->execute(['accID' => $_SESSION['accID']]);
+		$userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+		?>
+
 		<div class="profile-userpic">
 			<div class="circular-frame">
-				<img src="../assets/image/1.jpg" class="img-responsive" alt="">
+				<img src="data:image/jpeg;base64,<?php echo base64_encode($userInfo['avatar']); ?>"
+					class="img-responsive" alt="">
 			</div>
 		</div>
 		<div class="profile-usertitle">
-			<div class="profile-usertitle-name">Charlse Leclerc</div>
+			<div class="profile-usertitle-name"><?php echo $userInfo['fullName']; ?></div>
 			<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 		</div>
 		<div class="clear"></div>
+
 
 
 	</div><!-- /.container-fluid -->

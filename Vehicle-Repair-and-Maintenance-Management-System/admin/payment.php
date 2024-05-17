@@ -11,13 +11,31 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li class="active-link">Payment</li> <a href="add-customer.php" class="btnAddCust btn btn-success"
-					><em class="fa fa-plus">&nbsp;</em> Add Payment</a>
+				<li class="active-link">Payment</li> <a href="add-customer.php" class="btnAddCust btn btn-success"><em
+						class="fa fa-plus">&nbsp;</em> Add Payment</a>
 			</ol>
 		</div><!--/.row-->
 
 		<div class="panel panel-container">
 			<div style="margin:10px">
+				<?php
+				if (session_status() == PHP_SESSION_NONE) {
+					// Start the session
+					session_start();
+				}
+				include 'connection.php';
+
+				// Fetch data from tbl_payment
+				$stmt = $pdo->query("SELECT 
+                        invoiceNo, 
+                        payDate, 
+                        payAmount, 
+                        payBalance, 
+                        payStatus 
+                    FROM tbl_payment");
+				$payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				?>
+
 				<table id="example1" class="table table-hover">
 					<thead>
 						<tr>
@@ -30,183 +48,38 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>INV-654-21</td>
-							<td>Dec 04, 2021</td>
-							<td>Php 15,200</td>
-							<td>Php 15,200</td>
-							<td><span class="badge bg-warning">paid</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view invoice
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-download"></em> download
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>INV-654-21</td>
-							<td>Dec 04, 2021</td>
-							<td>Php 12,000</td>
-							<td>Php 3,000</td>
-							<td><span class="badge bg-warning">paid</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view invoice
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-download"></em> download
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>INV-654-21</td>
-							<td>Dec 02, 2021</td>
-							<td>Php 20,200</td>
-							<td>Php 15,200</td>
-							<td><span class="badge bg-info">partially paid</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view invoice
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-download"></em> download
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>INV-654-21</td>
-							<td>Dec 04, 2021</td>
-							<td>Php 10,200</td>
-							<td>Php 3,200</td>
-							<td><span class="badge bg-info">partially paid</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view invoice
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-download"></em> download
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td>INV-654-21</td>
-							<td>Dec 03, 2021</td>
-							<td>Php 9,000</td>
-							<td>Php 4,200</td>
-							<td><span class="badge bg-warning">paid</span></td>
-							<td>
-								<ul class="pull-right panel-settings" style="border:none">
-									<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown"
-											href="#">
-											<em class="fa fa-cogs"></em>
-										</a>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li>
-												<ul class="dropdown-settings">
-													<li><a href="#">
-															<em class="fa fa-eye"></em> view invoice
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-download"></em> download
-														</a></li>
-													<li><a href="#">
-															<em class="fa fa-edit"></em> edit
-														</a></li>
-													<li class="divider"></li>
-													<li><a href="#">
-															<em class="fa fa-trash"></em> delete
-														</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</td>
-						</tr>
+						<?php foreach ($payments as $payment): ?>
+							<tr>
+								<td><?php echo $payment['invoiceNo']; ?></td>
+								<td><?php echo date('M d, Y', strtotime($payment['payDate'])); ?></td>
+								<td><?php echo 'Php ' . number_format($payment['payAmount'], 2); ?></td>
+								<td><?php echo 'Php ' . number_format($payment['payBalance'], 2); ?></td>
+								<td><span class="badge bg-warning"><?php echo $payment['payStatus']; ?></span></td>
+								<td>
+									<ul class="pull-right panel-settings" style="border:none">
+										<li class="dropdown">
+											<a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+												<em class="fa fa-cogs"></em>
+											</a>
+											<ul class="dropdown-menu dropdown-menu-right">
+												<li>
+													<ul class="dropdown-settings">
+														<li><a href="#"><em class="fa fa-eye"></em> view invoice</a></li>
+														<li><a href="#"><em class="fa fa-download"></em> download</a></li>
+														<li><a href="#"><em class="fa fa-edit"></em> edit</a></li>
+														<li class="divider"></li>
+														<li><a href="#"><em class="fa fa-trash"></em> delete</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</td>
+							</tr>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
+
 			</div><!--/.row-->
 		</div>
 	</div> <!--/.main-->

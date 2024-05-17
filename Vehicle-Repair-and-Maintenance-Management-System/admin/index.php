@@ -22,6 +22,21 @@ $totalRevenue = $stmt->fetch(PDO::FETCH_ASSOC)['totalRevenue'];
 $stmt = $pdo->query("SELECT SUM(payBalance) AS totalBalances FROM tbl_payment");
 $totalBalances = $stmt->fetch(PDO::FETCH_ASSOC)['totalBalances'];
 
+// Query for total revenue over time
+$stmt = $pdo->query("SELECT DATE(payDate) AS date, SUM(payAmount) AS totalRevenue FROM tbl_payment GROUP BY DATE(payDate)");
+$totalRevenueData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Query for top vehicle types
+$stmt = $pdo->query("SELECT vehicleType, COUNT(*) AS count FROM tbl_tasks GROUP BY vehicleType ORDER BY count DESC LIMIT 5");
+$topVehicleTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Query for top customers
+$stmt = $pdo->query("SELECT custID, SUM(totalAmount) AS totalAmount FROM tbl_invoice GROUP BY custID ORDER BY totalAmount DESC LIMIT 5");
+$topCustomers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Query for task completion status overview
+$stmt = $pdo->query("SELECT taskStatus, COUNT(*) AS count FROM tbl_tasks GROUP BY taskStatus");
+$taskStatusOverview = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <body>
@@ -38,6 +53,7 @@ $totalBalances = $stmt->fetch(PDO::FETCH_ASSOC)['totalBalances'];
 
 		<div class="row">
 			<div class="col-md-3">
+				<!-- Total Customers panel -->
 				<div class="dashboard-panel">
 					<div class="icon"><i class="fa fa-users"></i></div>
 					<div class="details">
@@ -47,6 +63,7 @@ $totalBalances = $stmt->fetch(PDO::FETCH_ASSOC)['totalBalances'];
 				</div>
 			</div>
 			<div class="col-md-3">
+				<!-- Total Team Members panel -->
 				<div class="dashboard-panel">
 					<div class="icon"><i class="fa fa-home"></i></div>
 					<div class="details">
@@ -65,6 +82,7 @@ $totalBalances = $stmt->fetch(PDO::FETCH_ASSOC)['totalBalances'];
 				</div>
 			</div>
 			<div class="col-md-3">
+				<!-- Total Balances panel -->
 				<div class="dashboard-panel">
 					<div class="icon"><i class="fa fa-money"></i></div>
 					<div class="details">
@@ -76,66 +94,154 @@ $totalBalances = $stmt->fetch(PDO::FETCH_ASSOC)['totalBalances'];
 		</div>
 		<!-- Add more panels or content below as needed -->
 		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						Sales Overview
-
-						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em
-								class="fa fa-toggle-up"></em></span>
-					</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+			<div class="col-md-9">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Revenue Over Time
+						</div>
+						<div class="panel-body">
+							<div class="canvas-wrapper">
+								<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div><!--/.row-->
 
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>Pending Tasks</h4>
-						<div class="easypiechart" id="easypiechart-blue" data-percent="92"><span
-								class="percent">92%</span></div>
-					</div>
-				</div>
 			</div>
-			<div class="col-xs-6 col-md-3">
+
+			<div class="col-md-3">
 				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>Completed Tasks</h4>
-						<div class="easypiechart" id="easypiechart-orange" data-percent="65"><span
-								class="percent">65%</span></div>
+					<div class="panel-heading">
+						Top Vehicle Types
 					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>Paid Tasks</h4>
-						<div class="easypiechart" id="easypiechart-teal" data-percent="56"><span
-								class="percent">56%</span></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				<div class="panel panel-default">
-					<div class="panel-body easypiechart-panel">
-						<h4>Others</h4>
-						<div class="easypiechart" id="easypiechart-red" data-percent="27"><span
-								class="percent">27%</span></div>
+					<div class="panel-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Vehicle Type</th>
+									<th>Count</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ($topVehicleTypes as $vehicleType): ?>
+									<tr>
+										<td><?php echo $vehicleType['vehicleType']; ?></td>
+										<td><?php echo $vehicleType['count']; ?></td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div><!--/.row-->
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Top Customers
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Customer ID</th>
+									<th>Total Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ($topCustomers as $customer): ?>
+									<tr>
+										<td><?php echo $customer['custID']; ?></td>
+										<td><?php echo number_format($customer['totalAmount'], 2); ?></td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Task Completion Status Overview
+					</div>
+					<div class="panel-body">
+						<canvas id="task-status-chart" height="300"></canvas>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+		<script>
+			// Get task status data
+			var taskStatusData = <?php echo json_encode(array_column($taskStatusOverview, 'count')); ?>;
+			var taskStatusLabels = <?php echo json_encode(array_column($taskStatusOverview, 'taskStatus')); ?>;
+
+			// Create pie chart
+			var ctx = document.getElementById('task-status-chart').getContext('2d');
+			var taskStatusChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: taskStatusLabels,
+					datasets: [{
+						label: 'Task Completion Status',
+						data: taskStatusData,
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.7)',
+							'rgba(54, 162, 235, 0.7)',
+							'rgba(255, 206, 86, 0.7)',
+							'rgba(75, 192, 192, 0.7)',
+						],
+						borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+						],
+						borderWidth: 1
+					}]
+				},
+				options: {
+					responsive: true,
+					plugins: {
+						legend: {
+							position: 'bottom',
+						},
+						title: {
+							display: true,
+							text: 'Task Completion Status Overview'
+						}
+					}
+				}
+			});
+		</script>
+	</div><!--/.row-->
 
 	</div> <!--/.main-->
 
 	<?php include 'includes/footer.php' ?>
 
+	<!-- Include JavaScript libraries for charts (e.g., Chart.js) -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+	<script>
+		// JavaScript code to render charts using fetched data
+		var ctx = document.getElementById('line-chart').getContext('2d');
+		var lineChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: <?php echo json_encode(array_column($totalRevenueData, 'date')); ?>,
+				datasets: [{
+					label: 'Revenue Trend',
+					data: <?php echo json_encode(array_column($totalRevenueData, 'totalRevenue')); ?>,
+					borderColor: 'rgba(255, 99, 132, 1)',
+					backgroundColor: 'rgba(255, 99, 132, 0.2)',
+					fill: true,
+				}]
+			},
+
+		});
+	</script>
 </body>
 
 </html>

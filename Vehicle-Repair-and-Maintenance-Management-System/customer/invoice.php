@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<?php include 'includes/header.php'?>
+<?php
+session_start();
+ include 'includes/header.php'?>
    <link rel="stylesheet" href="../assets/tables/datatables-bs4/css/dataTables.bootstrap4.min.css"> 
 <body>
 	
@@ -29,10 +31,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>INV-654-21</td>
-                                                <td>TSCN-765-21</td>
-                                                <td>3</td>
-                                                <td>Php 15,200</td>
+                                                
                                             </tr>
                                         </tbody>
                                     </table>

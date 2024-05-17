@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<?php include 'includes/header.php'?>
+<?php
+session_start();
+ include 'includes/header.php'?>
    <link rel="stylesheet" href="../assets/tables/datatables-bs4/css/dataTables.bootstrap4.min.css"> 
 <body>
 	

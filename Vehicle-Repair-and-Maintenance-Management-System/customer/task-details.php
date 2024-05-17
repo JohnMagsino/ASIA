@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<?php include 'includes/header.php'?>
+<?php 
+session_start();
+include 'includes/header.php'?>
    <link rel="stylesheet" href="../assets/tables/datatables-bs4/css/dataTables.bootstrap4.min.css"> 
 <body>
 	
@@ -36,7 +38,7 @@
 									<input type="text" class="form-control" value="Head Light">
 								</div>
 								<div class="form-group col-md-6">
-									<label>Qunatity</label>
+									<label>Quantity</label>
 									<input type="text" class="form-control" value="2">
 								</div>
 								<div class="form-group col-md-6">

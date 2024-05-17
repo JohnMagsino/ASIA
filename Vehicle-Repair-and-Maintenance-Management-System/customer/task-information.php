@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
-<?php include 'includes/header.php'?>
-   <link rel="stylesheet" href="../assets/tables/datatables-bs4/css/dataTables.bootstrap4.min.css"> 
+<?php 
+session_start();
+include 'includes/header.php';
+include 'connection.php'; // Include your database connection file
+?>
+<link rel="stylesheet" href="../assets/tables/datatables-bs4/css/dataTables.bootstrap4.min.css"> 
 <body>
 	
     <?php include 'includes/topbar.php'?>
@@ -18,42 +22,38 @@
 		
 		<div class="panel panel-container">
 			<div style="margin:10px">
-			<table id="example1" class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-top-0">Transaction Code</th>
-                                                <th class="border-top-0">Task Name</th>
-                                                <th class="border-top-0">Description</th>
-                                                <th class="border-top-0">Vehicle Type</th>
-                                                <th class="border-top-0">Amount</th>
-                                                <th class="border-top-0">Status</th>
-                                                <th class="border-top-0">Completion Date</th>
-                                                <th class="border-top-0">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>TSCN-654-21</td>
-                                                <td>Task 1</td>
-                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
-                                                <td>Car</td>
-                                                <td>Php 12,000.00</td>
-												<td><span class="badge bg-success">completed</span></td>
-                                                <td>Dec 05, 2021</td>
-                                                <td><a href="task-details.php" class="btn btn-info"><em class="fa fa-eye">&nbsp;</em> details</a></td>
-											</tr>
-                                            <tr>
-                                                <td>TSCN-567-21</td>
-                                                <td>Task 2</td>
-                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</td>
-                                                <td>Car</td>
-                                                <td>Php 4,000.00</td>
-												<td><span class="badge bg-info">pending</span></td>
-                                                <td>Dec 04, 2021</td>
-                                                <td><a href="task-details.php" class="btn btn-info"><em class="fa fa-eye">&nbsp;</em> details</a></td>
-											</tr>
-                                        </tbody>
-                                    </table>
+				<table id="example1" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">Transaction Code</th>
+                            <th class="border-top-0">Task Name</th>
+                            <th class="border-top-0">Description</th>
+                            <th class="border-top-0">Vehicle Type</th>
+                            <th class="border-top-0">Amount</th>
+                            <th class="border-top-0">Status</th>
+                            <th class="border-top-0">Completion Date</th>
+                            <th class="border-top-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            // Retrieve task information from database
+                            $stmt = $pdo->query("SELECT * FROM tbl_tasks");
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo '<tr>';
+                                echo '<td>' . $row['taskID'] . '</td>';
+                                echo '<td>' . $row['taskName'] . '</td>';
+                                echo '<td>' . $row['taskDesc'] . '</td>';
+                                echo '<td>' . $row['vehicleType'] . '</td>';
+                                echo '<td>Php ' . number_format($row['taskAmount'], 2) . '</td>';
+                                echo '<td><span class="badge bg-' . ($row['taskStatus'] == 'completed' ? 'success' : 'info') . '">' . $row['taskStatus'] . '</span></td>';
+                                echo '<td>' . date('M d, Y', strtotime($row['completeDate'])) . '</td>';
+                                echo '<td><a href="task-details.php?id=' . $row['taskID'] . '" class="btn btn-info"><em class="fa fa-eye">&nbsp;</em> details</a></td>';
+                                echo '</tr>';
+                            }
+                        ?>
+                    </tbody>
+                </table>
 			</div><!--/.row-->
 		</div>
 	</div>	<!--/.main-->

@@ -1,3 +1,42 @@
+<?php
+session_start();
+include 'admin/connection.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Check if username and password are provided
+    if (!empty($username) && !empty($password)) {
+        // Prepare and execute the query
+        $stmt = $pdo->prepare("SELECT accType FROM tbl_account WHERE accUsername = :username AND accPass = :password");
+        $stmt->execute(['username' => $username, 'password' => $password]);
+        $user = $stmt->fetch();
+
+        if ($user) {
+            // Set session variables if needed
+            $_SESSION['username'] = $username;
+            $_SESSION['accType'] = $user['accType'];
+
+            // Redirect based on accType
+            if ($user['accType'] == 'admin') {
+                header("Location: admin");
+            } elseif ($user['accType'] == 'customer') {
+                header("Location: customer");
+            }
+            exit();
+        } else {
+            // Invalid credentials
+            echo "Invalid username or password.";
+        }
+    } else {
+        // Missing credentials
+        echo "Please enter both username and password.";
+    }
+} else {
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -9,12 +48,10 @@
     <link href="assets/css/datepicker3.css" rel="stylesheet">
     <link href="assets/css/styles.css" rel="stylesheet">
     <style>
-        
-
         .container-fluid {
-			padding-left: 100px;
-			padding-right: 100px;
-			margin-top: 0;
+            padding-left: 100px;
+            padding-right: 100px;
+            margin-top: 0;
         }
 
         .row {
@@ -44,52 +81,57 @@
         .login-panel {
             background-color: #f1f1f1;
         }
-		
     </style>
 </head>
+
 <body style="padding: 0">
-<div class="container-fluid" style="background: #f1f1f1;">
-    <div class="row">
-        <div class="col-md-6" id="slideshow" style="background: #1E1E1E;">
-            <div class="container text-left mx-auto" id="image-container">
-                <img src="assets\image\image1.png" alt="" width="440" height="400" class="img-fluid">
-            </div>
-        </div>
-        <div class="col-md-6" id="login-container" style="background: white;">
-            <div class="container">
-                <div class="login-panel panel panel-default" >
-                    <img src="assets\image\loginlogo.png" alt="" width="400" height="100" style="background: white;">
-                    <div class="panel-body" style="background: white;">
-                        <form role="form">
-							<h1> Login</h1>
-							<p>Please login to access your account</p>
-                            <fieldset>
-                                <div class="form-group">
-									<h4>Username:</h4>
-                                    <input class="form-control" placeholder="Username" type="text" autofocus="">
-                                </div>
-                                <div class="form-group">
-									<h4>Password:</h4>
-                                    <input class="form-control" placeholder="Password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                <center><a href="admin" class="btn btn-success btn-lg">Login as Admin</a>
-                                    <a href="customer" class="btn btn-info btn-lg">Login as Customer</a></center>
-                            </fieldset>
-                        </form>
-                    </div>
+    <div class="container-fluid" style="background: #f1f1f1;">
+        <div class="row">
+            <div class="col-md-6" id="slideshow" style="background: #1E1E1E;">
+                <div class="container text-left mx-auto" id="image-container">
+                    <img src="assets\image\image1.png" alt="" width="440" height="400" class="img-fluid">
                 </div>
             </div>
-        </div><!-- /.col-->
-    </div><!-- /.row -->
-</div>
+            <div class="col-md-6" id="login-container" style="background: white;">
+                <div class="container">
+                    <div class="login-panel panel panel-default">
+                        <img src="assets\image\loginlogo.png" alt="" width="400" height="100"
+                            style="background: white;">
+                        <div class="panel-body" style="background: white;">
+                            <form role="form" method="POST">
+                                <h1>Login</h1>
+                                <p>Please login to access your account</p>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <h4>Username:</h4>
+                                        <input class="form-control" placeholder="Username" name="username" type="text"
+                                            autofocus="">
+                                    </div>
+                                    <div class="form-group">
+                                        <h4>Password:</h4>
+                                        <input class="form-control" placeholder="Password" name="password"
+                                            type="password">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                        </label>
+                                    </div>
+                                    <center>
+                                        <button type="submit" class="btn btn-success btn-lg">Login</button>
+                                    </center>
+                                </fieldset>
+                            </form>
 
-<script src="assets/js/jquery-1.11.1.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col-->
+        </div><!-- /.row -->
+    </div>
+
+    <script src="assets/js/jquery-1.11.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
 </body>
 
 </html>

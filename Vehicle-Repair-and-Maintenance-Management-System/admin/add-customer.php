@@ -10,17 +10,8 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#">
-					<em class="fa fa-home"></em>
-				</a></li>
-				<li class="active">Customer</li>
+				<li class="active-link">Customer</li>
 			</ol>
-		</div><!--/.row-->
-		
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header"><em class="fa fa-user-plus">&nbsp;</em> Add Customer</h1>
-			</div>
 		</div><!--/.row-->
 		
 		<div class="panel panel-container">
@@ -29,35 +20,35 @@
 							<form role="form">
 								<div class="form-group col-md-12">
 									<label>Full Name</label>
-									<input class="form-control" value="Customer Name">
+									<input class="form-control">
 								</div>
 								<div class="form-group col-md-12">
 									<label>Address</label>
-									<textarea class="form-control">Mangga St. Manila City, Manila Philippines</textarea>
+									<textarea class="form-control"></textarea>
 								</div>
 								<div class="form-group col-md-12">
 									<label>Email</label>
-									<input class="form-control" value="customer@gmail.com">
+									<input class="form-control">
 								</div>
 								<div class="form-group col-md-12">
 									<label>Contact</label>
-									<input class="form-control" value="09879876846">
+									<input class="form-control">
 								</div>
 								<div class="form-group col-md-12">
 									
 								<div class="form-group col-md-4">
-									<label>Avatar </label><img src="../assets/image/4.jpg" width="100" style="border-radius:5px;margin-left:10px"><br><br>
+									<label>Avatar </label>
 									<input type="file" class="form-control">
 								</div>
 								<div class="form-group col-md-8">
 									
 								<div class="form-group col-md-12">
 									<label>Username</label>
-									<input class="form-control" value="william">
+									<input class="form-control">
 								</div>
 								<div class="form-group col-md-12">
 									<label>Paswword</label>
-									<input class="form-control" value="********">
+									<input class="form-control">
 								</div>
 								</div>
 								</div>

@@ -1,8 +1,26 @@
+<?php
+session_start();
+// Retrieve task ID from URL parameter
+if(isset($_GET['id']) && !empty($_GET['id'])) {
+    $taskID = $_GET['id'];
+
+    // Fetch task details based on task ID from the database
+    // Include connection.php if not already included
+    include 'connection.php';
+    $stmt = $pdo->prepare("SELECT * FROM tbl_tasks WHERE taskID = :taskID");
+    $stmt->execute(['taskID' => $taskID]);
+    $taskDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+} else {
+    // Redirect or display an error message if task ID is not provided
+    // For example:
+    header("Location: task-information.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
-<?php 
-session_start();
-include 'includes/header.php'?>
+<?php include 'includes/header.php'?>
    <link rel="stylesheet" href="../assets/tables/datatables-bs4/css/dataTables.bootstrap4.min.css"> 
 <body>
 	
@@ -10,18 +28,11 @@ include 'includes/header.php'?>
     <?php include 'includes/sidebar.php'?>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-		<div class="row">
-			<ol class="breadcrumb">
-				<li><a href="#">
-					<em class="fa fa-home"></em>
-				</a></li>
-				<li class="active">Tasks</li>
-			</ol>
-		</div><!--/.row-->
+	
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header"><em class="fa fa-line-chart">&nbsp;</em> Task Details</h1>
+				<h1 class="page-header">&nbsp;</em> Task Details</h1>
 			</div>
 		</div><!--/.row-->
 		
@@ -31,7 +42,7 @@ include 'includes/header.php'?>
 							<form role="form">
 								<div class="form-group col-md-12">
 									<label>Transaction Code</label>
-									<input class="form-control" value="TSCN-567-21" readonly>
+									<input class="form-control" value="<?php echo $taskDetails['taskID']; ?>" readonly>
 								</div>
 								<div class="form-group col-md-6">
 									<label>Parts</label>
@@ -54,7 +65,7 @@ include 'includes/header.php'?>
 									<input type="text" class="form-control" value="Remarks">
 								</div>
 								</div>
-									<button type="submit" class="btn btn-primary">Back</button>
+								<a href="task-information.php" class="btn btn-primary">Back</a>
 								</div>
 							</form>
 						</div>
@@ -74,5 +85,16 @@ include 'includes/header.php'?>
       });
    </script>
 		
+		<style>
+	body {
+    background-color: white;
+}
+	.page-header{
+    font-size: 25px;
+    font-weight: bold;
+    color: black;
+    margin-top: 10px;
+	}
+</style>
 </body>
 </html>

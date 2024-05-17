@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">&nbsp;</em> New Tasks</h1>
+                <h1 class="page-header">&nbsp;</em> New Task</h1>
             </div>
         </div><!--/.row-->
         

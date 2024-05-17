@@ -30,41 +30,18 @@ session_start();
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>INV-654-21</td>
-                                                <td>Dec 04, 2021</td>
-                                                <td>Php 15,200</td>
-                                                <td>Php 15,200</td>
-												
-                                            </tr>
-                                            <tr>
-                                                <td>INV-654-21</td>
-                                                <td>Dec 04, 2021</td>
-                                                <td>Php 12,000</td>
-                                                <td>Php 3,000</td>
-												
-                                            </tr>
-                                            <tr>
-                                                <td>INV-654-21</td>
-                                                <td>Dec 02, 2021</td>
-                                                <td>Php 20,200</td>
-                                                <td>Php 15,200</td>
-												
-                                            </tr>
-                                            <tr>
-                                                <td>INV-654-21</td>
-                                                <td>Dec 04, 2021</td>
-                                                <td>Php 10,200</td>
-                                                <td>Php 3,200</td>
-												
-                                            </tr>
-                                            <tr>
-                                                <td>INV-654-21</td>
-                                                <td>Dec 03, 2021</td>
-                                                <td>Php 9,000</td>
-                                                <td>Php 4,200</td>
-												
-                                            </tr>
+                                        <?php
+                        // Retrieve task information from database
+                        $stmt = $pdo->query("SELECT * FROM tbl_payment");
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo '<tr>';
+                            echo '<td>' . $row['invoiceNo'] . '</td>';
+                            echo '<td>' . $row['payDate'] . '</td>';
+                            echo '<td>' . $row['payAmount'] . '</td>';
+                            echo '<td>' . $row['payBalance'] . '</td>';
+                            echo '</tr>';
+                        }
+                        ?>
                                         </tbody>
                                     </table>
 			</div><!--/.row-->

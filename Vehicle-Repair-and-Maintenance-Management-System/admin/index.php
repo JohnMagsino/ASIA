@@ -207,10 +207,6 @@ $taskStatusOverview = $stmt->fetchAll(PDO::FETCH_ASSOC);
 					plugins: {
 						legend: {
 							position: 'bottom',
-						},
-						title: {
-							display: true,
-							text: 'Task Completion Status Overview'
 						}
 					}
 				}

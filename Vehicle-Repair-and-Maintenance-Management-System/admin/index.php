@@ -2,6 +2,7 @@
 <html>
 <?php include 'includes/header.php' ?>
 <?php
+session_start();
 include 'connection.php';
 
 // Query for total customers
@@ -74,7 +75,7 @@ $taskStatusOverview = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			</div>
 			<div class="col-md-3">
 				<div class="dashboard-panel">
-					<div class="icon"><i class="fa fa-wallet"></i></div>
+					<div class="icon"><i class="fa fa-briefcase"></i></div>
 					<div class="details">
 						<div class="number">₱<?php echo number_format($totalRevenue, 2); ?></div>
 						<div class="label">TOTAL REVENUE</div>
@@ -95,16 +96,16 @@ $taskStatusOverview = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		<!-- Add more panels or content below as needed -->
 		<div class="row">
 			<div class="col-md-9">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							Revenue Over Time
-						</div>
-						<div class="panel-body">
-							<div class="canvas-wrapper">
-								<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
-							</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Revenue Over Time
+					</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
 						</div>
 					</div>
+				</div>
 
 			</div>
 
@@ -207,10 +208,6 @@ $taskStatusOverview = $stmt->fetchAll(PDO::FETCH_ASSOC);
 					plugins: {
 						legend: {
 							position: 'bottom',
-						},
-						title: {
-							display: true,
-							text: 'Task Completion Status Overview'
 						}
 					}
 				}

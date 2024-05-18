@@ -40,6 +40,18 @@ $totalBalance = $stmt->fetch()['totalBalance'];
 $stmt = $pdo->prepare("SELECT COUNT(*) as totalTransaction FROM tbl_invoice WHERE transCode IS NOT NULL");
 $stmt->execute();
 $totalTransaction = $stmt->fetch()['totalTransaction'];
+
+// Query for task status counts
+$stmt = $pdo->prepare("SELECT taskStatus, COUNT(*) as count FROM tbl_tasks GROUP BY taskStatus");
+$stmt->execute();
+$statusCounts = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+// Query for total payments over time
+$stmt = $pdo->prepare("SELECT DATE_FORMAT(payDate, '%Y-%m') as month, SUM(payAmount) as totalPayment FROM tbl_payment GROUP BY month ORDER BY month");
+$stmt->execute();
+$paymentData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$months = array_column($paymentData, 'month');
+$payments = array_column($paymentData, 'totalPayment');
 ?>
 
 <!DOCTYPE html>
@@ -116,7 +128,8 @@ $totalTransaction = $stmt->fetch()['totalTransaction'];
                         <div class="chart-container">
                             <canvas id="pie-chart"></canvas>
                         </div>
-                        <ul class="list-inline text-center mt-3">
+                        <ul class="list-inline text-center mt-3" id="status-list">
+                            <!-- Status labels will be injected here by JavaScript -->
                         </ul>
                     </div>
                 </div>
@@ -143,14 +156,22 @@ $totalTransaction = $stmt->fetch()['totalTransaction'];
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        // Pass PHP data to JavaScript
+        var taskStatusData = <?php echo json_encode($statusCounts); ?>;
+        var paymentMonths = <?php echo json_encode($months); ?>;
+        var paymentAmounts = <?php echo json_encode($payments); ?>;
+
+        // Prepare data for the pie chart
+        var labels = Object.keys(taskStatusData);
+        var data = Object.values(taskStatusData);
+
         // Pie chart
         var ctxP = document.getElementById('pie-chart').getContext('2d');
         var pieChart = new Chart(ctxP, {
             type: 'pie',
             data: {
-                labels: ['Completed Tasks', 'Paid Tasks', 'Pending Tasks', 'Not Started'],
                 datasets: [{
-                    data: [40, 20, 20, 20], // Example data
+                    data: data,
                     backgroundColor: ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
                 }]
             },
@@ -159,15 +180,25 @@ $totalTransaction = $stmt->fetch()['totalTransaction'];
             }
         });
 
+        // Generate status labels dynamically
+        var statusList = document.getElementById('status-list');
+        var backgroundColors = ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336'];
+
+        labels.forEach((label, index) => {
+            var listItem = document.createElement('li');
+            listItem.innerHTML = `<span class="dot" style="background-color:${backgroundColors[index]};"></span> ${label}`;
+            statusList.appendChild(listItem);
+        });
+
         // Line chart
         var ctxL = document.getElementById('line-chart').getContext('2d');
         var lineChart = new Chart(ctxL, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'], // Example labels
+                labels: paymentMonths,
                 datasets: [{
                     label: 'Total Payment',
-                    data: [1000, 2000, 1500, 3000, 2500, 3500, 4000], // Example data
+                    data: paymentAmounts,
                     backgroundColor: 'rgba(76, 175, 80, 0.1)',
                     borderColor: '#4CAF50',
                     borderWidth: 2

@@ -4,7 +4,7 @@ include 'connection.php'; // Include your database connection file
 
 // Fetch user information based on session
 if (isset($_SESSION['accID'])) {
-    $stmt = $pdo->prepare("SELECT fullName, fullAddress, emailAdd, contactNo, avatar, accUsername, accPass FROM tbl_info INNER JOIN tbl_account ON tbl_info.infoID = tbl_account.infoID WHERE tbl_account.accID = :accID");
+    $stmt = $pdo->prepare("SELECT tbl_info.infoID, fullName, fullAddress, emailAdd, contactNo, avatar, accUsername, accPass FROM tbl_info INNER JOIN tbl_account ON tbl_info.infoID = tbl_account.infoID WHERE tbl_account.accID = :accID");
     $stmt->execute(['accID' => $_SESSION['accID']]);
     $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 } else {
@@ -15,9 +15,49 @@ if (isset($_SESSION['accID'])) {
 
 // Decode the avatar BLOB data
 $avatarData = base64_encode($userData['avatar']);
-$avatarSrc = 'data:image/jpeg;base64,'.$avatarData;
-?>
+$avatarSrc = 'data:image/jpeg;base64,' . $avatarData;
 
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $fullName = $_POST['fullName'];
+    $fullAddress = $_POST['fullAddress'];
+    $emailAdd = $_POST['emailAdd'];
+    $contactNo = $_POST['contactNo'];
+    $accUsername = $_POST['accUsername'];
+    $accPass = $_POST['accPass'];
+    $retypePass = $_POST['retypePass']; // Added retypePass
+
+    // Check if passwords match
+    if ($accPass === $retypePass) {
+        // Hash the password
+        $hashedPass = password_hash($accPass, PASSWORD_DEFAULT);
+
+        try {
+            // Begin transaction
+            $pdo->beginTransaction();
+
+            // Update user info
+            $stmt = $pdo->prepare("UPDATE tbl_info SET fullName = ?, fullAddress = ?, emailAdd = ?, contactNo = ? WHERE infoID = ?");
+            $stmt->execute([$fullName, $fullAddress, $emailAdd, $contactNo, $userData['infoID']]);
+
+            // Update account info
+            $stmt = $pdo->prepare("UPDATE tbl_account SET accUsername = ?, accPass = ? WHERE accID = ?");
+            $stmt->execute([$accUsername, $accPass, $_SESSION['accID']]);
+
+            // Commit transaction
+            $pdo->commit();
+
+            echo "<script>alert('Information successfully updated.');</script>";
+        } catch (Exception $e) {
+            // Rollback transaction if something failed
+            $pdo->rollBack();
+            echo "<script>alert('An error occurred while updating your information. Please try again.');</script>";
+        }
+    } else {
+        echo "<script>alert('Passwords do not match.');</script>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 <?php include 'includes/header.php' ?>
@@ -37,7 +77,7 @@ $avatarSrc = 'data:image/jpeg;base64,'.$avatarData;
     <div class="panel panel-container">
         <div class="panel-body">
             <div class="col-md-12">
-                <form role="form">
+                <form role="form" method="post">
                     <div class="row">
                         <div class="col-md-4 text-center">
                             <img src="<?php echo $avatarSrc; ?>" alt="Avatar" class="img-thumbnail" style="width: 200px;">
@@ -45,36 +85,41 @@ $avatarSrc = 'data:image/jpeg;base64,'.$avatarData;
                             <button type="button" class="btn btn-success btn-block" style="margin-top: 10px;">Update Image</button>
                         </div>
                         <div class="col-md-8">
-                        <h2> Personal nformation</h2>
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input class="form-control" value="<?php echo htmlspecialchars($userData['fullName']); ?>">
+                            <h2>Personal Information</h2>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" class="form-control" name="fullName" value="<?php echo htmlspecialchars($userData['fullName']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" name="fullAddress" required><?php echo htmlspecialchars($userData['fullAddress']); ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="emailAdd" value="<?php echo htmlspecialchars($userData['emailAdd']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Contact</label>
+                                <input type="text" class="form-control" name="contactNo" value="<?php echo htmlspecialchars($userData['contactNo']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" class="form-control" name="accUsername" value="<?php echo htmlspecialchars($userData['accUsername']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" name="accPass" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input type="password" class="form-control" name="retypePass" required>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-primary btn-block">Update Information</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control"><?php echo htmlspecialchars($userData['fullAddress']); ?></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-control" value="<?php echo htmlspecialchars($userData['emailAdd']); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>Contact</label>
-                            <input class="form-control" value="<?php echo htmlspecialchars($userData['contactNo']); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input class="form-control" value="<?php echo htmlspecialchars($userData['accUsername']); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" value="<?php echo htmlspecialchars($userData['accPass']); ?>">
-                        </div>
-                        <div class="form-group text-right">
-                            <a href="update_profile.php" class="btn btn-primary btn-block">Update Information</a>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -95,7 +140,6 @@ $avatarSrc = 'data:image/jpeg;base64,'.$avatarData;
     });
 </script>
 </body>
-
 <style>
     body {
         background-color: white;
@@ -143,3 +187,4 @@ $avatarSrc = 'data:image/jpeg;base64,'.$avatarData;
         background-color: #218838;
     }
 </style>
+</html>

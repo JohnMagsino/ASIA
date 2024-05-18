@@ -25,8 +25,7 @@ include 'includes/header.php' ?>
                     <thead>
                         <tr>
                             <th class="border-top-0">Invoice No.</th>
-                            <th class="border-top-0">Transaction Code</th>
-                            <th class="border-top-0">Total Parts</th>
+                            <th class="border-top-0">Invoice Date</th>
                             <th class="border-top-0">Total Amount</th>
                         </tr>
                     </thead>
@@ -37,8 +36,7 @@ include 'includes/header.php' ?>
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo '<tr>';
                             echo '<td>' . $row['invoiceID'] . '</td>';
-                            echo '<td>' . $row['transCode'] . '</td>';
-                            echo '<td>' . $row['totalParts'] . '</td>';
+                            echo '<td>' . $row['invoiceDate'] . '</td>';
                             echo '<td>' . $row['totalAmount'] . '</td>';
                             echo '</tr>';
                         }

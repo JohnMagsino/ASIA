@@ -75,7 +75,7 @@ $taskStatusOverview = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			</div>
 			<div class="col-md-3">
 				<div class="dashboard-panel">
-					<div class="icon"><i class="fa fa-briefcase"></i></div>
+					<div class="icon"><i class="fa fa-money"></i></div>
 					<div class="details">
 						<div class="number">₱<?php echo number_format($totalRevenue, 2); ?></div>
 						<div class="label">TOTAL REVENUE</div>
@@ -85,7 +85,7 @@ $taskStatusOverview = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			<div class="col-md-3">
 				<!-- Total Balances panel -->
 				<div class="dashboard-panel">
-					<div class="icon"><i class="fa fa-money"></i></div>
+					<div class="icon"><i class="fa  fa-balance-scale"></i></div>
 					<div class="details">
 						<div class="number">₱<?php echo number_format($totalBalances, 2); ?></div>
 						<div class="label">TOTAL BALANCES</div>

@@ -9,15 +9,8 @@
 			<a class="navbar-brand" href="#"><img src="../assets/image/logo-admin.png" alt="Logo"></a>
 		</div>
 		<?php
-		session_start();
 		include 'connection.php';
 
-		// Check if user is logged in
-		if (!isset($_SESSION['accID'])) {
-			// Redirect to login page if not logged in
-			header("Location: login.php");
-			exit();
-		}
 
 		// Fetch user information based on accID
 		$stmt = $pdo->prepare("SELECT fullName, avatar FROM tbl_info WHERE infoID = (SELECT infoID FROM tbl_account WHERE accID = :accID)");
@@ -36,8 +29,5 @@
 			<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 		</div>
 		<div class="clear"></div>
-
-
-
 	</div><!-- /.container-fluid -->
 </nav>

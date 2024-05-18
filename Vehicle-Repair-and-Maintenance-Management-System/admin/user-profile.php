@@ -1,3 +1,23 @@
+<?php
+session_start(); // Start the session
+include 'connection.php'; // Include your database connection file
+
+// Fetch user information based on session
+if (isset($_SESSION['accID'])) {
+    $stmt = $pdo->prepare("SELECT fullName, fullAddress, emailAdd, contactNo, avatar, accUsername, accPass FROM tbl_info INNER JOIN tbl_account ON tbl_info.infoID = tbl_account.infoID WHERE tbl_account.accID = :accID");
+    $stmt->execute(['accID' => $_SESSION['accID']]);
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Decode the avatar BLOB data
+    $avatarData = base64_encode($userData['avatar']);
+    $avatarSrc = 'data:image/jpeg;base64,' . $avatarData;
+} else {
+    // Handle unauthorized access or redirect to login page
+    header("Location: login.php");
+    exit(); // Stop further execution
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <?php include 'includes/header.php' ?>
@@ -10,77 +30,81 @@
 
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="row">
-            <ol class="breadcrumb">
-                <li class="active-link">Profile</li>
-            </ol>
+            <div class="col-lg-12">
+                <h1 class="page-header">Profile</h1>
+            </div>
         </div><!--/.row-->
 
-
         <div class="panel panel-container">
-            <div class="row" style="margin:10px">
-                <div class="col-12 col-md-4 col-lg-4 col-xl-4">
-                    <div class="panel">
-                        <div class="btn btn-success">Update Image</div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-8 col-lg-8 col-xl-8">
-                    <form method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <h4>Personal Information</h4>
-                            <div class="default-orgName">
-                                <label for=" userName">First Name</label>
-                                <input type="text" name="userName" value="">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <img src="<?php echo $avatarSrc; ?>" alt="Avatar" class="img-thumbnail"
+                                    style="width: 200px;">
                                 <br>
+                                <button type="button" class="btn btn-success btn-block" style="margin-top: 10px;">Update
+                                    Image</button>
                             </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Middle Name</label>
-                                <input type="text" name="userName" value="">
-                                <br>
-                            </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Last Name</label>
-                                <input type="text" name="userName" value="">
-                                <br>
-                            </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Address</label>
-                                <input type="text" name="userName" value="">
-                                <br>
-                            </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Contact Number</label>
-                                <input type="text" name="userName" value="">
-                                <br>
-                            </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Email Address</label>
-                                <input type="text" name="userName" value="">
-                                <br>
-                            </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Username</label>
-                                <input type="text" name="userName" value="">
-                                <br>
-                            </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Password</label>
-                                <input type="text" name="userName" value="">
-                                <br>
-                            </div>
-                            <div class="default-orgName">
-                                <label for=" userName">Re-enter password</label>
-                                <input type="text" name="userName" value="">
-                                <br>
+                            <div class="col-md-8">
+                                <h2> Personal Information</h2>
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input class="form-control"
+                                        value="<?php echo htmlspecialchars($userData['fullName']); ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <textarea
+                                        class="form-control"><?php echo htmlspecialchars($userData['fullAddress']); ?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input class="form-control"
+                                        value="<?php echo htmlspecialchars($userData['emailAdd']); ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact</label>
+                                    <input class="form-control"
+                                        value="<?php echo htmlspecialchars($userData['contactNo']); ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input class="form-control"
+                                        value="<?php echo htmlspecialchars($userData['accUsername']); ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control"
+                                        value="<?php echo htmlspecialchars($userData['accPass']); ?>">
+                                </div>
+                                <div class="form-group text-right">
+                                    <a href="update_profile.php" class="btn btn-primary btn-block">Update
+                                        Information</a>
+                                </div>
                             </div>
                         </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div> <!--/.main-->
 
-    <?php include 'includes/footer.php' ?>
-    <script src="../assets/js/chart.js"></script>
-
+    <?php include 'includes/footer.php'; ?>
+    <!-- DataTables & Plugins -->
+    <script src="../assets/tables/datatables/jquery.dataTables.min.js"></script>
+    <script src="../assets/tables/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/tables/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../assets/tables/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $("#example1").DataTable();
+        });
+    </script>
 </body>
 
 </html>

@@ -9,5 +9,7 @@
 	<link href="../assets/css/topbar.css" rel="stylesheet">
 	<link href="../assets/css/sidebar.css" rel="stylesheet">
 	<link href="../assets/css/index.css" rel="stylesheet">
-</head>
+	<link href="../assets/css/profile.css.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 </head>
